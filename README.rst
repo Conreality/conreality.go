@@ -14,4 +14,6 @@ Conreality Software Development Kit (SDK) for Go
    :alt: Travis CI build status
    :target: https://travis-ci.org/conreality/conreality.go
 
+|
+
 https://sdk.conreality.org/go/
