@@ -88,3 +88,23 @@ func (client *Client) Begin() (*Scope, error) {
 	}
 	return &Scope{tx: tx}, nil
 }
+
+// TODO
+func (scope *Scope) Abort() error {
+	var err = scope.tx.Rollback()
+	if err != nil {
+		return err
+	}
+	scope.tx = nil
+	return nil
+}
+
+// TODO
+func (scope *Scope) Commit() error {
+	var err = scope.tx.Commit()
+	if err != nil {
+		return err
+	}
+	scope.tx = nil
+	return nil
+}
