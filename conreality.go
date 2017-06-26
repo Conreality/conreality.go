@@ -43,6 +43,10 @@ type Player struct {
 	Object
 }
 
+type Scope struct {
+	tx *sql.Tx
+}
+
 type Session struct{}
 
 type Theater struct {
@@ -74,4 +78,13 @@ func (client *Client) Disconnect() error {
 	}
 	client.db = nil
 	return nil
+}
+
+// Begin creates a new scope.
+func (client *Client) Begin() (*Scope, error) {
+	var tx, err = client.db.Begin()
+	if err != nil {
+		return nil, err
+	}
+	return &Scope{tx: tx}, nil
 }
