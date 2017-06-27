@@ -67,6 +67,15 @@ type Theater struct {
 	uuid uuid.UUID
 }
 
+// NewObject TODO...
+func NewObject(objectUUID string) *Object {
+	var uuid, err = uuid.FromString(objectUUID)
+	if err != nil {
+		return nil
+	}
+	return &Object{uuid: uuid}
+}
+
 // Connect attempts to connect to a local master server.
 //
 // The returned handle is safe for concurrent use by multiple goroutines and
