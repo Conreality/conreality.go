@@ -11,8 +11,14 @@ import (
 	"strconv"
 )
 
+////////////////////////////////////////////////////////////////////////////////
+// Constants
+
 // Version contains the current package version, as a string.
 const Version = "0.0.0"
+
+////////////////////////////////////////////////////////////////////////////////
+// Type Definitions
 
 // Asset
 type Asset struct {
@@ -54,18 +60,25 @@ type Player struct {
 	Object
 }
 
-// Scope
-type Scope struct {
-	tx *sql.Tx
+// Action
+type Action struct {
+	client *Client
+	tx     *sql.Tx
 }
 
 // Session
-type Session struct{}
+type Session struct {
+	client    *Client
+	agentUUID uuid.UUID
+}
 
 // Theater
 type Theater struct {
 	uuid uuid.UUID
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Object API
 
 // NewObject TODO...
 func NewObject(objectUUID string) *Object {
@@ -76,14 +89,17 @@ func NewObject(objectUUID string) *Object {
 	return &Object{uuid: uuid}
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Client API
+
 // Connect attempts to connect to a local master server.
 //
 // The returned handle is safe for concurrent use by multiple goroutines and
 // maintains its own internal pool of idle connections. Thus, the Connect
 // function should be called just once. It is rarely necessary to close a
 // handle.
-func Connect(gameName string) (*Client, error) {
-	var db, err = sql.Open("postgres", "sslmode=disable user=00000000-0000-0000-0000-000000000000 dbname="+gameName)
+func Connect(masterHost string) (*Client, error) {
+	var db, err = sql.Open("postgres", "sslmode=disable user=00000000-0000-0000-0000-000000000000 dbname="+masterHost) // FIXME
 	if err != nil {
 		return nil, errors.Wrap(err, "open failed")
 	}
@@ -103,41 +119,68 @@ func (client *Client) Disconnect() error {
 	return nil
 }
 
-// Begin creates a new transaction scope.
-func (client *Client) Begin() (*Scope, error) {
-	var tx, err = client.db.Begin()
+// Login TODO...
+func (client *Client) Login(agentUUID string, secret string) (*Session, error) {
+	var uuid, err = uuid.FromString(agentUUID)
+	if err != nil {
+		return nil, errors.Wrap(err, "UUID parsing failed")
+	}
+	return &Session{client: client, agentUUID: uuid}, nil
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Session API
+
+// Logout TODO...
+func (session *Session) Logout() error {
+	session.client = nil
+	return nil
+}
+
+// NewAction creates a new transactional action.
+func (session *Session) NewAction() (*Action, error) {
+	var tx, err = session.client.db.Begin()
 	if err != nil {
 		return nil, errors.Wrap(err, "BEGIN failed")
 	}
-	return &Scope{tx: tx}, nil
+	return &Action{client: session.client, tx: tx}, nil
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Game API
+
+/* TODO */
+
+////////////////////////////////////////////////////////////////////////////////
+// Action API
+
 // Abort TODO...
-func (scope *Scope) Abort() error {
-	var err = scope.tx.Rollback()
+func (action *Action) Abort() error {
+	var err = action.tx.Rollback()
 	if err != nil {
 		return errors.Wrap(err, "ROLLBACK failed")
 	}
-	scope.tx = nil
+	action.tx = nil
 	return nil
 }
 
 // Commit TODO...
-func (scope *Scope) Commit() error {
-	var err = scope.tx.Commit()
+func (action *Action) Commit() error {
+	var err = action.tx.Commit()
 	if err != nil {
 		return errors.Wrap(err, "COMMIT failed")
 	}
-	scope.tx = nil
+	action.tx = nil
 	return nil
 }
 
 // SendEvent TODO...
-func (scope *Scope) SendEvent(predicate string, subject, object *Object) (int64, error) {
+func (action *Action) SendEvent(predicate string, subject, object *Object) (int64, error) {
 	var result sql.NullString
-	var err = scope.tx.QueryRow("SELECT conreality.event_send($1, $2, $3) AS id", predicate, subject.uuid, object.uuid).Scan(&result)
+	var err = action.tx.QueryRow("SELECT conreality.event_send($1, $2, $3) AS id",
+		predicate, subject.uuid, object.uuid).Scan(&result)
 	if err != nil {
-		return -1, errors.Wrap(err, "conreality.event_send failed")
+		return -1, errors.Wrap(err, "CALL conreality.event_send failed")
 	}
 	if !result.Valid {
 		panic("unexpected NULL result from conreality.event_send")
@@ -147,11 +190,11 @@ func (scope *Scope) SendEvent(predicate string, subject, object *Object) (int64,
 }
 
 // SendMessage TODO...
-func (scope *Scope) SendMessage(messageText string) (int64, error) {
+func (action *Action) SendMessage(messageText string) (int64, error) {
 	var result sql.NullString
-	var err = scope.tx.QueryRow("SELECT conreality.message_send($1) AS id", messageText).Scan(&result)
+	var err = action.tx.QueryRow("SELECT conreality.message_send($1) AS id", messageText).Scan(&result)
 	if err != nil {
-		return -1, errors.Wrap(err, "conreality.message_send failed")
+		return -1, errors.Wrap(err, "CALL conreality.message_send failed")
 	}
 	if !result.Valid {
 		panic("unexpected NULL result from conreality.message_send")
