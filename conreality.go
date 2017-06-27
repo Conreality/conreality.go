@@ -7,6 +7,7 @@ import (
 	"database/sql"
 	_ "github.com/lib/pq"
 	"github.com/satori/go.uuid"
+	"strconv"
 )
 
 const Version = "0.0.0"
@@ -107,4 +108,18 @@ func (scope *Scope) Commit() error {
 	}
 	scope.tx = nil
 	return nil
+}
+
+// TODO
+func (scope *Scope) SendMessage(messageText string) (int64, error) {
+	var result sql.NullString
+	var err = scope.tx.QueryRow("SELECT conreality.message_send($1) AS id", messageText).Scan(&result)
+	if err != nil {
+		return -1, err
+	}
+	if !result.Valid {
+		panic("unexpected NULL result from conreality.message_send()")
+	}
+	var messageID, _ = strconv.Atoi(result.String)
+	return int64(messageID), nil
 }
