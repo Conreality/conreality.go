@@ -8,7 +8,6 @@ import (
 	_ "github.com/lib/pq" // for side effects only
 	"github.com/pkg/errors"
 	"github.com/satori/go.uuid"
-	"strconv"
 )
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -186,7 +185,7 @@ func (action *Action) Commit() error {
 
 // SendEvent TODO...
 func (action *Action) SendEvent(predicate string, subject, object *Object) (*Event, error) {
-	var result sql.NullString
+	var result sql.NullInt64
 	var err = action.tx.QueryRow("SELECT conreality.event_send($1, $2, $3) AS id",
 		predicate, subject.uuid, object.uuid).Scan(&result)
 	if err != nil {
@@ -195,13 +194,12 @@ func (action *Action) SendEvent(predicate string, subject, object *Object) (*Eve
 	if !result.Valid {
 		panic("unexpected NULL result from conreality.event_send")
 	}
-	var eventID, _ = strconv.Atoi(result.String)
-	return &Event{id: int64(eventID)}, nil
+	return &Event{id: result.Int64}, nil
 }
 
 // SendMessage TODO...
 func (action *Action) SendMessage(messageText string) (*Message, error) {
-	var result sql.NullString
+	var result sql.NullInt64
 	var err = action.tx.QueryRow("SELECT conreality.message_send($1) AS id", messageText).Scan(&result)
 	if err != nil {
 		return nil, errors.Wrap(err, "CALL conreality.message_send failed")
@@ -209,6 +207,5 @@ func (action *Action) SendMessage(messageText string) (*Message, error) {
 	if !result.Valid {
 		panic("unexpected NULL result from conreality.message_send")
 	}
-	var messageID, _ = strconv.Atoi(result.String)
-	return &Message{id: int64(messageID)}, nil
+	return &Message{id: result.Int64}, nil
 }
