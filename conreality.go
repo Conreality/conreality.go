@@ -20,6 +20,12 @@ const Version = "0.0.0"
 ////////////////////////////////////////////////////////////////////////////////
 // Type Definitions
 
+// Action
+type Action struct {
+	client *Client
+	tx     *sql.Tx
+}
+
 // Asset
 type Asset struct {
 	Object
@@ -27,7 +33,7 @@ type Asset struct {
 
 // Binary
 type Binary struct {
-	id uint64
+	id int64
 }
 
 // Camera
@@ -42,12 +48,17 @@ type Client struct {
 
 // Event
 type Event struct {
-	id uint64
+	id int64
+}
+
+// Game
+type Game struct {
+	session *Session
 }
 
 // Message
 type Message struct {
-	id uint64
+	id int64
 }
 
 // Object
@@ -58,12 +69,6 @@ type Object struct {
 // Player
 type Player struct {
 	Object
-}
-
-// Action
-type Action struct {
-	client *Client
-	tx     *sql.Tx
 }
 
 // Session
@@ -137,6 +142,11 @@ func (session *Session) Logout() error {
 	return nil
 }
 
+// Game returns the current game.
+func (session *Session) Game() *Game {
+	return &Game{session: session}
+}
+
 // NewAction creates a new transactional action.
 func (session *Session) NewAction() (*Action, error) {
 	var tx, err = session.client.db.Begin()
@@ -175,30 +185,30 @@ func (action *Action) Commit() error {
 }
 
 // SendEvent TODO...
-func (action *Action) SendEvent(predicate string, subject, object *Object) (int64, error) {
+func (action *Action) SendEvent(predicate string, subject, object *Object) (*Event, error) {
 	var result sql.NullString
 	var err = action.tx.QueryRow("SELECT conreality.event_send($1, $2, $3) AS id",
 		predicate, subject.uuid, object.uuid).Scan(&result)
 	if err != nil {
-		return -1, errors.Wrap(err, "CALL conreality.event_send failed")
+		return nil, errors.Wrap(err, "CALL conreality.event_send failed")
 	}
 	if !result.Valid {
 		panic("unexpected NULL result from conreality.event_send")
 	}
 	var eventID, _ = strconv.Atoi(result.String)
-	return int64(eventID), nil
+	return &Event{id: int64(eventID)}, nil
 }
 
 // SendMessage TODO...
-func (action *Action) SendMessage(messageText string) (int64, error) {
+func (action *Action) SendMessage(messageText string) (*Message, error) {
 	var result sql.NullString
 	var err = action.tx.QueryRow("SELECT conreality.message_send($1) AS id", messageText).Scan(&result)
 	if err != nil {
-		return -1, errors.Wrap(err, "CALL conreality.message_send failed")
+		return nil, errors.Wrap(err, "CALL conreality.message_send failed")
 	}
 	if !result.Valid {
 		panic("unexpected NULL result from conreality.message_send")
 	}
 	var messageID, _ = strconv.Atoi(result.String)
-	return int64(messageID), nil
+	return &Message{id: int64(messageID)}, nil
 }
