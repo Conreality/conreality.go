@@ -10,6 +10,10 @@ Conreality Software Development Kit (SDK) for Go
    :alt: GoDoc reference
    :target: https://godoc.org/github.com/conreality/conreality.go
 
+.. image:: https://goreportcard.com/badge/github.com/conreality/conreality.go
+   :alt: Go Report Card score
+   :target: https://goreportcard.com/report/github.com/conreality/conreality.go
+
 .. image:: https://img.shields.io/travis/conreality/conreality.go/master.svg
    :alt: Travis CI build status
    :target: https://travis-ci.org/conreality/conreality.go
