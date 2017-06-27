@@ -123,6 +123,20 @@ func (scope *Scope) Commit() error {
 	return nil
 }
 
+// SendEvent TODO...
+func (scope *Scope) SendEvent(predicate string, subject, object *Object) (int64, error) {
+	var result sql.NullString
+	var err = scope.tx.QueryRow("SELECT conreality.event_send($1, $2, $3) AS id", predicate, subject.uuid, object.uuid).Scan(&result)
+	if err != nil {
+		return -1, errors.Wrap(err, "conreality.event_send failed")
+	}
+	if !result.Valid {
+		panic("unexpected NULL result from conreality.event_send")
+	}
+	var eventID, _ = strconv.Atoi(result.String)
+	return int64(eventID), nil
+}
+
 // SendMessage TODO...
 func (scope *Scope) SendMessage(messageText string) (int64, error) {
 	var result sql.NullString
