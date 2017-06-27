@@ -5,51 +5,63 @@ package conreality
 
 import (
 	"database/sql"
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" // for side effects only
 	"github.com/satori/go.uuid"
 	"strconv"
 )
 
+// The current package version.
 const Version = "0.0.0"
 
+// Asset
 type Asset struct {
 	Object
 }
 
+// Binary
 type Binary struct {
 	id uint64
 }
 
+// Camera
 type Camera struct {
 	Object
 }
 
+// Client
 type Client struct {
 	db *sql.DB
 }
 
+// Event
 type Event struct {
 	id uint64
 }
 
+// Message
 type Message struct {
 	id uint64
 }
 
+// Object
 type Object struct {
 	uuid uuid.UUID
 }
 
+// Player
 type Player struct {
 	Object
 }
 
+// Scope
 type Scope struct {
 	tx *sql.Tx
 }
 
+// Session
 type Session struct{}
 
+// Theater
 type Theater struct {
 	uuid uuid.UUID
 }
@@ -61,7 +73,7 @@ type Theater struct {
 // function should be called just once. It is rarely necessary to close a
 // handle.
 func Connect(gameName string) (*Client, error) {
-	var db, err = sql.Open("postgres", "sslmode=disable dbname="+gameName)
+	var db, err = sql.Open("postgres", "sslmode=disable user=00000000-0000-0000-0000-000000000000 dbname="+gameName)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +93,7 @@ func (client *Client) Disconnect() error {
 	return nil
 }
 
-// Begin creates a new scope.
+// Begin creates a new transaction scope.
 func (client *Client) Begin() (*Scope, error) {
 	var tx, err = client.db.Begin()
 	if err != nil {
@@ -90,7 +102,7 @@ func (client *Client) Begin() (*Scope, error) {
 	return &Scope{tx: tx}, nil
 }
 
-// TODO
+// Abort TODO...
 func (scope *Scope) Abort() error {
 	var err = scope.tx.Rollback()
 	if err != nil {
@@ -100,7 +112,7 @@ func (scope *Scope) Abort() error {
 	return nil
 }
 
-// TODO
+// Commit TODO...
 func (scope *Scope) Commit() error {
 	var err = scope.tx.Commit()
 	if err != nil {
@@ -110,7 +122,7 @@ func (scope *Scope) Commit() error {
 	return nil
 }
 
-// TODO
+// SendMessage TODO...
 func (scope *Scope) SendMessage(messageText string) (int64, error) {
 	var result sql.NullString
 	var err = scope.tx.QueryRow("SELECT conreality.message_send($1) AS id", messageText).Scan(&result)
