@@ -6,11 +6,12 @@ package conreality
 import (
 	"database/sql"
 	_ "github.com/lib/pq" // for side effects only
+	"github.com/pkg/errors"
 	"github.com/satori/go.uuid"
 	"strconv"
 )
 
-// The current package version.
+// Version contains the current package version, as a string.
 const Version = "0.0.0"
 
 // Asset
@@ -75,10 +76,10 @@ type Theater struct {
 func Connect(gameName string) (*Client, error) {
 	var db, err = sql.Open("postgres", "sslmode=disable user=00000000-0000-0000-0000-000000000000 dbname="+gameName)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "open failed")
 	}
 	if err = db.Ping(); err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "ping failed")
 	}
 	return &Client{db: db}, nil
 }
@@ -87,7 +88,7 @@ func Connect(gameName string) (*Client, error) {
 func (client *Client) Disconnect() error {
 	var err = client.db.Close()
 	if err != nil {
-		return err
+		return errors.Wrap(err, "close failed")
 	}
 	client.db = nil
 	return nil
@@ -97,7 +98,7 @@ func (client *Client) Disconnect() error {
 func (client *Client) Begin() (*Scope, error) {
 	var tx, err = client.db.Begin()
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "BEGIN failed")
 	}
 	return &Scope{tx: tx}, nil
 }
@@ -106,7 +107,7 @@ func (client *Client) Begin() (*Scope, error) {
 func (scope *Scope) Abort() error {
 	var err = scope.tx.Rollback()
 	if err != nil {
-		return err
+		return errors.Wrap(err, "ROLLBACK failed")
 	}
 	scope.tx = nil
 	return nil
@@ -116,7 +117,7 @@ func (scope *Scope) Abort() error {
 func (scope *Scope) Commit() error {
 	var err = scope.tx.Commit()
 	if err != nil {
-		return err
+		return errors.Wrap(err, "COMMIT failed")
 	}
 	scope.tx = nil
 	return nil
@@ -127,10 +128,10 @@ func (scope *Scope) SendMessage(messageText string) (int64, error) {
 	var result sql.NullString
 	var err = scope.tx.QueryRow("SELECT conreality.message_send($1) AS id", messageText).Scan(&result)
 	if err != nil {
-		return -1, err
+		return -1, errors.Wrap(err, "conreality.message_send failed")
 	}
 	if !result.Valid {
-		panic("unexpected NULL result from conreality.message_send()")
+		panic("unexpected NULL result from conreality.message_send")
 	}
 	var messageID, _ = strconv.Atoi(result.String)
 	return int64(messageID), nil
