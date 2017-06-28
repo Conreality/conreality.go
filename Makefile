@@ -1,15 +1,14 @@
 GO = go
 
-PACKAGE = conreality
-VERSION = `cat VERSION`
+PACKAGE := conreality
+VERSION := $(shell cat VERSION)
 
-SOURCES = conreality.go
-
-BINARIES =
+SOURCES := conreality.go
+OUTPUTS :=
 
 all: build
 
-build: $(BINARIES)
+build: $(OUTPUTS)
 	$(GO) build
 
 check: conreality_test.go
