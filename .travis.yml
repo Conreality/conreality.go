@@ -11,4 +11,6 @@ matrix:
     - go: 1.7
     - go: 1.6
 before_install:
-  - go get github.com/satori/go.uuid
+  - go get -t -v ./...
+script:
+  - go test -v ./...
