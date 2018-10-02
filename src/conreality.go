@@ -96,34 +96,8 @@ func NewObject(objectUUID string) *Object {
 ////////////////////////////////////////////////////////////////////////////////
 // Client API
 
-// Connect attempts to connect to a local master server.
-//
-// The returned handle is safe for concurrent use by multiple goroutines and
-// maintains its own internal pool of idle connections. Thus, the Connect
-// function should be called just once. It is rarely necessary to close a
-// handle.
-func Connect(masterHost string) (*Client, error) {
-	var db, err = sql.Open("postgres", "sslmode=disable user=00000000-0000-0000-0000-000000000000 dbname="+masterHost) // FIXME
-	if err != nil {
-		return nil, errors.Wrap(err, "open failed")
-	}
-	if err = db.Ping(); err != nil {
-		return nil, errors.Wrap(err, "ping failed")
-	}
-	return &Client{db: db}, nil
-}
-
-// Disconnect closes the connection to the master server.
-func (client *Client) Disconnect() error {
-	var err = client.db.Close()
-	if err != nil {
-		return errors.Wrap(err, "close failed")
-	}
-	client.db = nil
-	return nil
-}
-
 // Login TODO...
+/*
 func (client *Client) Login(agentUUID string, secret string) (*Session, error) {
 	var uuid, err = uuid.FromString(agentUUID)
 	if err != nil {
@@ -131,6 +105,7 @@ func (client *Client) Login(agentUUID string, secret string) (*Session, error) {
 	}
 	return &Session{client: client, agentUUID: uuid}, nil
 }
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // Session API
