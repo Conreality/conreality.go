@@ -1,31 +1,40 @@
-GO = go
-
 PACKAGE := conreality
 VERSION := $(shell cat VERSION)
 
+GO = go
+PANDOC  ?= pandoc
+
 SOURCES := conreality.go
-OUTPUTS :=
+TARGETS :=
+
+%.html: %.rst
+	$(PANDOC) -o $@ -t html5 -s $<
 
 all: build
 
-build: $(OUTPUTS)
+build: $(TARGETS)
 	$(GO) build
 
-check: conreality_test.go
+check: src/conreality_test.go
 	$(GO) test
 
 dist:
-	@echo "not implemented" # TODO
+	@echo "not implemented"; exit 2 # TODO
 
 install:
 	$(GO) install
 
+uninstall:
+	@echo "not implemented"; exit 2 # TODO
+
 clean:
 	@$(GO) clean
-	@rm -f *~
+	@rm -f *~ $(TARGETS)
 
 distclean: clean
 
 mostlyclean: clean
 
-.PHONY: build check dist install clean distclean mostlyclean
+.PHONY: check dist install clean distclean mostlyclean
+.SECONDARY:
+.SUFFIXES:
