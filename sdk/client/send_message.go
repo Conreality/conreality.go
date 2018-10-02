@@ -3,8 +3,8 @@
 package client
 
 import (
-	"github.com/conreality/conreality.go/src/model"
-	rpc "github.com/conreality/conreality.go/src/rpc"
+	"github.com/conreality/conreality.go/sdk/model"
+	rpc "github.com/conreality/conreality.go/sdk/rpc"
 	"github.com/pkg/errors"
 	"golang.org/x/net/context"
 )

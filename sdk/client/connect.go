@@ -3,7 +3,7 @@
 package client
 
 import (
-	rpc "github.com/conreality/conreality.go/src/rpc"
+	rpc "github.com/conreality/conreality.go/sdk/rpc"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 )
