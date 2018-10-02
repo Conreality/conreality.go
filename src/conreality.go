@@ -3,96 +3,6 @@
 // Package conreality provides the Conreality Software Development Kit (SDK) for Go.
 package conreality
 
-import (
-	"database/sql"
-	_ "github.com/lib/pq" // for side effects only
-	"github.com/pkg/errors"
-	"github.com/satori/go.uuid"
-)
-
-////////////////////////////////////////////////////////////////////////////////
-// Constants
-
-// Version contains the current package version, as a string.
-const Version = "0.0.0"
-
-////////////////////////////////////////////////////////////////////////////////
-// Type Definitions
-
-// Action
-type Action struct {
-	client *Client
-	tx     *sql.Tx
-}
-
-// Asset
-type Asset struct {
-	Object
-}
-
-// Binary
-type Binary struct {
-	id int64
-}
-
-// Camera
-type Camera struct {
-	Object
-}
-
-// Client
-type Client struct {
-	db *sql.DB
-}
-
-// Event
-type Event struct {
-	id int64
-}
-
-// Game
-type Game struct {
-	session *Session
-}
-
-// Message
-type Message struct {
-	id int64
-}
-
-// Object
-type Object struct {
-	uuid uuid.UUID
-}
-
-// Player
-type Player struct {
-	Object
-}
-
-// Session
-type Session struct {
-	client    *Client
-	agentUUID uuid.UUID
-}
-
-// Theater
-type Theater struct {
-	uuid uuid.UUID
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Object API
-
-// NewObject TODO...
-func NewObject(objectUUID string) *Object {
-	var uuid, err = uuid.FromString(objectUUID)
-	if err != nil {
-		return nil
-	}
-	return &Object{uuid: uuid}
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // Client API
 
@@ -111,17 +21,22 @@ func (client *Client) Login(agentUUID string, secret string) (*Session, error) {
 // Session API
 
 // Logout TODO...
+/*
 func (session *Session) Logout() error {
 	session.client = nil
 	return nil
 }
+*/
 
 // Game returns the current game.
+/*
 func (session *Session) Game() *Game {
 	return &Game{session: session}
 }
+*/
 
 // NewAction creates a new transactional action.
+/*
 func (session *Session) NewAction() (*Action, error) {
 	var tx, err = session.client.db.Begin()
 	if err != nil {
@@ -129,6 +44,7 @@ func (session *Session) NewAction() (*Action, error) {
 	}
 	return &Action{client: session.client, tx: tx}, nil
 }
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // Game API
@@ -139,6 +55,7 @@ func (session *Session) NewAction() (*Action, error) {
 // Action API
 
 // Abort TODO...
+/*
 func (action *Action) Abort() error {
 	var err = action.tx.Rollback()
 	if err != nil {
@@ -147,8 +64,10 @@ func (action *Action) Abort() error {
 	action.tx = nil
 	return nil
 }
+*/
 
 // Commit TODO...
+/*
 func (action *Action) Commit() error {
 	var err = action.tx.Commit()
 	if err != nil {
@@ -157,8 +76,10 @@ func (action *Action) Commit() error {
 	action.tx = nil
 	return nil
 }
+*/
 
 // SendEvent TODO...
+/*
 func (action *Action) SendEvent(predicate string, subject, object *Object) (*Event, error) {
 	var result sql.NullInt64
 	var err = action.tx.QueryRow("SELECT conreality.event_send($1, $2, $3) AS id",
@@ -171,8 +92,10 @@ func (action *Action) SendEvent(predicate string, subject, object *Object) (*Eve
 	}
 	return &Event{id: result.Int64}, nil
 }
+*/
 
 // SendMessage TODO...
+/*
 func (action *Action) SendMessage(messageText string) (*Message, error) {
 	var result sql.NullInt64
 	var err = action.tx.QueryRow("SELECT conreality.message_send($1) AS id", messageText).Scan(&result)
@@ -184,3 +107,4 @@ func (action *Action) SendMessage(messageText string) (*Message, error) {
 	}
 	return &Message{id: result.Int64}, nil
 }
+*/
