@@ -5,5 +5,5 @@ package client
 // Session
 type Session struct {
 	client *Client
-	//agentUUID uuid.UUID
+	ID     uint64
 }

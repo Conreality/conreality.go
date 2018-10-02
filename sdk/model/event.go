@@ -4,5 +4,5 @@ package model
 
 // Event
 type Event struct {
-	id int64
+	ID uint64
 }

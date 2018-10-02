@@ -6,7 +6,7 @@ import uuid "github.com/satori/go.uuid"
 
 // Object
 type Object struct {
-	uuid uuid.UUID
+	UUID uuid.UUID
 }
 
 // NewObject TODO...
@@ -15,5 +15,5 @@ func NewObject(objectUUID string) *Object {
 	if err != nil {
 		return nil
 	}
-	return &Object{uuid: uuid}
+	return &Object{UUID: uuid}
 }

@@ -11,7 +11,7 @@ import (
 
 // Hello performs a version handshake with the master server.
 func (client *Client) Hello(ctx context.Context) (string, error) {
-	response, err := client.RPC.Hello(ctx, &rpc.HelloRequest{Version: sdk.Version})
+	response, err := client.public.Hello(ctx, &rpc.HelloRequest{Version: sdk.Version})
 	if err != nil {
 		return "", errors.Wrap(err, "Hello failed")
 	}

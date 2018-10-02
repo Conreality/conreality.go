@@ -4,5 +4,5 @@ package model
 
 // Binary
 type Binary struct {
-	id int64
+	ID uint64
 }

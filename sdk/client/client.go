@@ -9,6 +9,7 @@ import (
 
 // Client connection state.
 type Client struct {
-	Conn *grpc.ClientConn
-	RPC  rpc.MasterClient
+	Connection *grpc.ClientConn
+	public     rpc.PublicClient
+	session    rpc.SessionClient
 }

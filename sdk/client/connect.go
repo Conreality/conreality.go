@@ -14,5 +14,5 @@ func Connect(masterHost string) (*Client, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "connect failed")
 	}
-	return &Client{Conn: conn, RPC: rpc.NewMasterClient(conn)}, nil
+	return &Client{Connection: conn, public: rpc.NewPublicClient(conn), session: rpc.NewSessionClient(conn)}, nil
 }

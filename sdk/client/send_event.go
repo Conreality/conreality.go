@@ -9,12 +9,12 @@ import (
 	"golang.org/x/net/context"
 )
 
-// Ping sends a dummy packet to the master server.
-func (client *Client) SendEvent(ctx context.Context, messageText string) (*model.Message, error) {
-	var err error
-	_, err = client.RPC.Ping(ctx, &rpc.PingRequest{}) // TODO
+// SendEvent TODO...
+func (session *Session) SendEvent(ctx context.Context, predicate string, subject model.Object, object model.Object) (*model.Event, error) {
+	request := &rpc.SendEventRequest{SessionId: session.ID, Predicate: predicate, SubjectUuid: subject.UUID.String(), ObjectUuid: object.UUID.String()}
+	response, err := session.client.session.SendEvent(ctx, request)
 	if err != nil {
 		return nil, errors.Wrap(err, "SendEvent failed")
 	}
-	return &model.Message{}, nil // TODO
+	return &model.Event{ID: response.Id}, nil
 }
