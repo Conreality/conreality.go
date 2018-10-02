@@ -3,6 +3,7 @@
 package client
 
 import (
+	"github.com/conreality/conreality.go/sdk"
 	rpc "github.com/conreality/conreality.go/sdk/rpc"
 	"github.com/pkg/errors"
 	"golang.org/x/net/context"
@@ -10,7 +11,7 @@ import (
 
 // Hello performs a version handshake with the master server.
 func (client *Client) Hello(ctx context.Context) (string, error) {
-	response, err := client.RPC.Hello(ctx, &rpc.HelloRequest{Version: Version})
+	response, err := client.RPC.Hello(ctx, &rpc.HelloRequest{Version: sdk.Version})
 	if err != nil {
 		return "", errors.Wrap(err, "Hello failed")
 	}

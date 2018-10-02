@@ -7,8 +7,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-const Version = "0.0.0"
-
 // Client connection state.
 type Client struct {
 	Conn *grpc.ClientConn

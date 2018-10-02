@@ -1,7 +1,7 @@
 /* This is free and unencumbered software released into the public domain. */
 
 // Package conreality provides the Conreality Software Development Kit (SDK) for Go.
-package conreality
+package sdk
 
 ////////////////////////////////////////////////////////////////////////////////
 // Client API
