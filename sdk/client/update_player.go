@@ -3,9 +3,10 @@
 package client
 
 import (
+	"context"
+
 	rpc "github.com/conreality/conreality.go/sdk/rpc"
 	"github.com/pkg/errors"
-	"golang.org/x/net/context"
 )
 
 // UpdatePlayer TODO...

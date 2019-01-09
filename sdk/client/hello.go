@@ -3,10 +3,11 @@
 package client
 
 import (
+	"context"
+
 	"github.com/conreality/conreality.go/sdk"
 	rpc "github.com/conreality/conreality.go/sdk/rpc"
 	"github.com/pkg/errors"
-	"golang.org/x/net/context"
 )
 
 // Hello performs a version handshake with the master server.

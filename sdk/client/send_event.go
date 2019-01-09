@@ -3,8 +3,9 @@
 package client
 
 import (
+	"context"
+
 	"github.com/conreality/conreality.go/sdk/model"
-	"golang.org/x/net/context"
 )
 
 // SendEvent TODO...
