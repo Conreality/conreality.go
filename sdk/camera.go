@@ -2,7 +2,7 @@
 
 package sdk
 
-// Camera
+// Camera TODO...
 type Camera struct {
 	Object
 }

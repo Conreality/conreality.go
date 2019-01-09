@@ -2,7 +2,7 @@
 
 package sdk
 
-// Asset
+// Asset TODO...
 type Asset struct {
 	Object
 }

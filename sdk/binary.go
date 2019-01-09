@@ -2,7 +2,7 @@
 
 package sdk
 
-// Binary
+// Binary TODO...
 type Binary struct {
 	ID uint64
 }

@@ -2,10 +2,10 @@
 
 package sdk
 
-// TargetID
+// TargetID TODO...
 type TargetID = uint32
 
-// Target
+// Target TODO...
 type Target struct {
 	ID TargetID
 }

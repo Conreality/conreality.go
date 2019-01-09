@@ -2,7 +2,7 @@
 
 package sdk
 
-// Game
+// Game TODO...
 type Game struct {
 	//session *Session
 }

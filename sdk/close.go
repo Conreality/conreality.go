@@ -2,7 +2,8 @@
 
 package sdk
 
-// Action TODO...
-type Action struct {
-	client *Client
+// Close TODO...
+func (session *Session) Close() error {
+	session.client = nil
+	return nil
 }

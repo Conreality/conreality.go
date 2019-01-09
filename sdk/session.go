@@ -2,14 +2,8 @@
 
 package sdk
 
-// Session
+// Session TODO...
 type Session struct {
 	client *Client
 	ID     uint64
-}
-
-// Close TODO...
-func (session *Session) Close() error {
-	session.client = nil
-	return nil
 }

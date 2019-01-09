@@ -4,10 +4,10 @@ package sdk
 
 import uuid "github.com/satori/go.uuid"
 
-// ObjectID
+// ObjectID TODO...
 type ObjectID = uint64
 
-// Object
+// Object TODO...
 type Object struct {
 	UUID uuid.UUID
 }

@@ -2,10 +2,10 @@
 
 package sdk
 
-// UnitID
+// UnitID TODO...
 type UnitID = uint32
 
-// Unit
+// Unit TODO...
 type Unit struct {
 	ID UnitID
 }

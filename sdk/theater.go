@@ -4,7 +4,7 @@ package sdk
 
 import uuid "github.com/satori/go.uuid"
 
-// Theater
+// Theater TODO...
 type Theater struct {
 	uuid uuid.UUID
 }
