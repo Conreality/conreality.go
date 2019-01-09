@@ -11,8 +11,7 @@ import (
 
 // Ping sends a dummy packet to the master server.
 func (client *Client) Ping(ctx context.Context) error {
-	var err error
-	_, err = client.public.Ping(ctx, &rpc.Nothing{})
+	_, err := client.public.Ping(ctx, &rpc.Nothing{})
 	if err != nil {
 		return errors.Wrap(err, "Ping failed")
 	}
