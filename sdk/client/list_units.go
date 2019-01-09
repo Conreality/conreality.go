@@ -4,9 +4,11 @@ package client
 
 import (
 	"context"
+
+	"github.com/conreality/conreality.go/sdk/model"
 )
 
 // ListUnits TODO...
-func (session *Session) ListUnits(ctx context.Context) error {
-	return nil // TODO
+func (session *Session) ListUnits(ctx context.Context, unitID model.UnitID) ([]model.Unit, error) {
+	return make([]model.Unit, 0), nil // TODO
 }
