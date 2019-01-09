@@ -8,10 +8,11 @@ import (
 
 // Disconnect closes the connection to the master server.
 func (client *Client) Disconnect() error {
-	var err = client.Connection.Close()
-	if err != nil {
-		return errors.Wrap(err, "close failed")
+	if client.Connection != nil {
+		if err := client.Connection.Close(); err != nil {
+			return errors.Wrap(err, "Disconnect failed")
+		}
+		client.Connection = nil
 	}
-	client.Connection = nil
 	return nil
 }

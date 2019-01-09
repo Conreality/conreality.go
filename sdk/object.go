@@ -9,11 +9,12 @@ type ObjectID = uint64
 
 // Object TODO...
 type Object struct {
+	ID   ObjectID
 	UUID uuid.UUID
 }
 
-// NewObject TODO...
-func NewObject(objectUUID string) *Object {
+// newObject TODO...
+func newObject(objectUUID string) *Object {
 	var uuid, err = uuid.FromString(objectUUID)
 	if err != nil {
 		return nil

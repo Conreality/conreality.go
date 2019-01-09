@@ -9,7 +9,7 @@ import (
 // SendMessage TODO...
 func (session *Session) SendMessage(ctx context.Context, messageText string) (*Message, error) {
 	/*
-		request := &rpc.SendMessageRequest{SessionId: session.ID, Text: messageText}
+		request := &rpc.Message{SessionId: session.ID, Text: messageText}
 		response, err := session.client.session.SendMessage(ctx, request)
 		if err != nil {
 			return nil, errors.Wrap(err, "SendMessage failed")

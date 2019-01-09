@@ -11,7 +11,8 @@ import (
 
 // Authenticate TODO...
 func (client *Client) Authenticate(ctx context.Context, playerNick string) (*Session, error) {
-	response, err := client.public.Authenticate(ctx, &rpc.AuthRequest{PlayerNick: playerNick})
+	request := &rpc.AuthRequest{PlayerNick: playerNick}
+	response, err := client.public.Authenticate(ctx, request)
 	if err != nil {
 		return nil, errors.Wrap(err, "Ping failed")
 	}

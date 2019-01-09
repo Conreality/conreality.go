@@ -4,6 +4,8 @@ package sdk
 
 // Close TODO...
 func (session *Session) Close() error {
-	session.client = nil
+	if session.client != nil {
+		session.client = nil
+	}
 	return nil
 }

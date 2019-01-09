@@ -4,9 +4,17 @@ package sdk
 
 import (
 	"context"
+
+	rpc "github.com/conreality/conreality.go/rpc"
+	"github.com/pkg/errors"
 )
 
 // DesignateTarget TODO...
 func (session *Session) DesignateTarget(ctx context.Context) (*Target, error) {
-	return nil, nil // TODO
+	request := &rpc.Target{} // TODO
+	targetID, err := session.client.session.DesignateTarget(ctx, request)
+	if err != nil {
+		return nil, errors.Wrap(err, "DesignateTarget failed")
+	}
+	return &Target{ID: targetID.Value}, nil
 }
