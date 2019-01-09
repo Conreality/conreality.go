@@ -10,8 +10,8 @@ import (
 )
 
 // LeaveGame TODO...
-func (session *Session) LeaveGame(ctx context.Context, reason string) error {
-	request := &rpc.String{Value: reason}
+func (session *Session) LeaveGame(ctx context.Context, notice string) error {
+	request := &rpc.String{Value: notice}
 	_, err := session.client.session.LeaveGame(ctx, request)
 	if err != nil {
 		return errors.Wrap(err, "LeaveGame failed")

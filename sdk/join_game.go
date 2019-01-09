@@ -12,9 +12,9 @@ import (
 // JoinGame TODO...
 func (session *Session) JoinGame(ctx context.Context) (*Player, error) {
 	request := &rpc.Nothing{}
-	_, err := session.client.session.JoinGame(ctx, request)
+	response, err := session.client.session.JoinGame(ctx, request)
 	if err != nil {
 		return nil, errors.Wrap(err, "JoinGame failed")
 	}
-	return nil, nil
+	return &Player{Object: Object{ID: ObjectID(response.Value)}}, nil
 }
