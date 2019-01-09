@@ -2,7 +2,10 @@
 
 package sdk
 
+// MessageID TODO...
+type MessageID = uint64
+
 // Message sent or received.
 type Message struct {
-	ID uint64
+	ID MessageID
 }

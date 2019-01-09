@@ -2,7 +2,10 @@
 
 package sdk
 
+// EventID TODO...
+type EventID = uint64
+
 // Event TODO...
 type Event struct {
-	ID uint64
+	ID EventID
 }

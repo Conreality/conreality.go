@@ -11,7 +11,10 @@ import (
 
 // UpdatePlayer TODO...
 func (session *Session) UpdatePlayer(ctx context.Context, heartbeat uint32) error {
-	request := &rpc.PlayerStatus{SessionId: session.ID, Heartbeat: heartbeat}
+	request := &rpc.PlayerStatus{
+		SessionId: &rpc.SessionID{Value: session.ID},
+		Heartbeat: heartbeat,
+	}
 	_, err := session.client.session.UpdatePlayer(ctx, request)
 	if err != nil {
 		return errors.Wrap(err, "UpdatePlayer failed")

@@ -11,7 +11,10 @@ import (
 
 // AddPlayer TODO...
 func (session *Session) AddPlayer(ctx context.Context, playerNick string) (*Player, error) {
-	request := &rpc.Player{Nick: playerNick}
+	request := &rpc.Player{
+		SessionId: &rpc.SessionID{Value: session.ID},
+		Nick:      playerNick,
+	}
 	response, err := session.client.session.AddPlayer(ctx, request)
 	if err != nil {
 		return nil, errors.Wrap(err, "AddPlayer failed")
