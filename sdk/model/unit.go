@@ -2,10 +2,10 @@
 
 package model
 
-// PlayerID
-type PlayerID = ObjectID
+// UnitID
+type UnitID = uint32
 
-// Player
-type Player struct {
-	Object
+// Unit
+type Unit struct {
+	ID UnitID
 }

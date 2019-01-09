@@ -4,11 +4,11 @@ Conreality Software Development Kit (SDK) for Go
 
 .. image:: https://img.shields.io/badge/license-Public%20Domain-blue.svg
    :alt: Project license
-   :target: https://unlicense.org/
+   :target: https://unlicense.org
 
 .. image:: https://img.shields.io/badge/godoc-reference-blue.svg
    :alt: GoDoc reference
-   :target: https://godoc.org/github.com/conreality/conreality.go
+   :target: https://godoc.org/github.com/conreality/conreality.go/sdk
 
 .. image:: https://goreportcard.com/badge/github.com/conreality/conreality.go
    :alt: Go Report Card score

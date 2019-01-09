@@ -4,6 +4,9 @@ package model
 
 import uuid "github.com/satori/go.uuid"
 
+// ObjectID
+type ObjectID = uint64
+
 // Object
 type Object struct {
 	UUID uuid.UUID
