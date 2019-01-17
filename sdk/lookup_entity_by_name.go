@@ -16,5 +16,8 @@ func (session *Session) LookupEntityByName(ctx context.Context, entityName strin
 	if err != nil {
 		return nil, errors.Wrap(err, "LookupEntityByName failed")
 	}
+	if response.Value == 0 {
+		return nil, nil // entity not found
+	}
 	return &Entity{ID: response.Value}, nil
 }
