@@ -3,7 +3,7 @@
 package sdk
 
 // UnitID TODO...
-type UnitID = uint32
+type UnitID = uint64
 
 // Unit TODO...
 type Unit struct {

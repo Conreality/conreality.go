@@ -3,7 +3,7 @@
 package sdk
 
 // TargetID TODO...
-type TargetID = uint32
+type TargetID = uint64
 
 // Target TODO...
 type Target struct {
