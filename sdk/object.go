@@ -5,7 +5,7 @@ package sdk
 import uuid "github.com/satori/go.uuid"
 
 // ObjectID TODO...
-type ObjectID = uint64
+type ObjectID = EntityID
 
 // Object TODO...
 type Object struct {
