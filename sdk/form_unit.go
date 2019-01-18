@@ -11,7 +11,7 @@ import (
 
 // FormUnit TODO...
 func (session *Session) FormUnit(ctx context.Context, unitName string) (*Unit, error) {
-	request := &rpc.String{Value: unitName}
+	request := &rpc.TextString{Value: unitName}
 	response, err := session.client.session.FormUnit(ctx, request)
 	if err != nil {
 		return nil, errors.Wrap(err, "FormUnit failed")

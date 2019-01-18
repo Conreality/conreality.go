@@ -11,7 +11,7 @@ import (
 
 // StopGame TODO...
 func (session *Session) StopGame(ctx context.Context, notice string) error {
-	request := &rpc.String{Value: notice}
+	request := &rpc.TextString{Value: notice}
 	_, err := session.client.session.StopGame(ctx, request)
 	if err != nil {
 		return errors.Wrap(err, "StopGame failed")

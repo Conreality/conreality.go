@@ -11,7 +11,7 @@ import (
 
 // DefineMission TODO...
 func (session *Session) DefineMission(ctx context.Context, summary string) error {
-	request := &rpc.String{Value: summary}
+	request := &rpc.TextString{Value: summary}
 	_, err := session.client.session.DefineMission(ctx, request)
 	if err != nil {
 		return errors.Wrap(err, "DefineMission failed")

@@ -11,7 +11,7 @@ import (
 
 // LookupEntityByName TODO...
 func (session *Session) LookupEntityByName(ctx context.Context, entityName string) (*Entity, error) {
-	request := &rpc.String{Value: entityName}
+	request := &rpc.TextString{Value: entityName}
 	response, err := session.client.session.LookupEntityByName(ctx, request)
 	if err != nil {
 		return nil, errors.Wrap(err, "LookupEntityByName failed")
