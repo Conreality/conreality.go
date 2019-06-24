@@ -1,16 +1,17 @@
-# https://docs.travis-ci.com/user/languages/go/
+# See: https://drycop.org
 language: go
-sudo: false
 go:
-  - 1.8
-  - 1.7
-  - 1.6
-matrix:
-  fast_finish: true
-  allow_failures:
-    - go: 1.7
-    - go: 1.6
+  - 1.12
+git:
+  depth: 1
+cache:
+  directories:
+    - $HOME/.cache/go-build
+    - $HOME/gopath/pkg/mod
 install:
+  - go get -u github.com/dryproject/drycop/drycop
   - go get -t -v ./...
 script:
-  - go test -v ./...
+  - drycop init -v -L go
+  - drycop check -v -B go -L go -F none -I .github
+  - drycop test -v -B go
