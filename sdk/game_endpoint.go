@@ -8,14 +8,15 @@ import (
 	"github.com/grandcat/zeroconf"
 )
 
-// GameEndpoint TODO...
+// GameEndpoint describes a discovered game endpoint.
 type GameEndpoint struct {
+	Name    string
 	Host    string
 	Port    int
 	Version string
 }
 
-// DiscoverGames TODO...
+// DiscoverGames attempts to discover ongoing games on the local network.
 func DiscoverGames(ctx context.Context, endpoints chan<- *GameEndpoint) error {
 	mdnsResolver, err := zeroconf.NewResolver(nil)
 	if err != nil {
@@ -26,9 +27,10 @@ func DiscoverGames(ctx context.Context, endpoints chan<- *GameEndpoint) error {
 	go func(services <-chan *zeroconf.ServiceEntry) {
 		for service := range services {
 			endpoints <- &GameEndpoint{
+				Name: service.Instance,
 				Host: service.AddrIPv4[0].String(),
 				Port: service.Port,
-				//Version: service.Text, // TOOD
+				//Version: service.Text[0], // TODO
 			}
 		}
 	}(mdnsServices)
