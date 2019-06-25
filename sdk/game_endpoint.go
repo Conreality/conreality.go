@@ -4,6 +4,7 @@ package sdk
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/grandcat/zeroconf"
@@ -15,6 +16,11 @@ type GameEndpoint struct {
 	Host    string
 	Port    int
 	Version string
+}
+
+// URL returns the URL string for a game endpoint.
+func (endpoint *GameEndpoint) URL() string {
+	return fmt.Sprintf("grpc://%s:%d", endpoint.Host, endpoint.Port)
 }
 
 // DiscoverGames attempts to discover ongoing games on the local network.
