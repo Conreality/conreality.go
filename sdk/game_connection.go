@@ -4,7 +4,7 @@ package sdk
 
 import "context"
 
-// GameConnection TODO...
+// GameConnection represents an active connection to a game endpoint.
 type GameConnection struct {
 	Endpoint *GameEndpoint
 }
