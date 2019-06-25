@@ -2,7 +2,10 @@
 
 package sdk
 
-import "context"
+import (
+	"context"
+	"time"
+)
 
 // EventID is a unique identifier for a game event.
 type EventID = uint64
@@ -15,6 +18,13 @@ type Event struct {
 // ReceiveEvents subscribes to the stream of game events.
 func (connection *GameConnection) ReceiveEvents(ctx context.Context, startID EventID) (<-chan *Event, error) {
 	channel := make(chan *Event)
-	// TODO
+	go func() { // TODO
+		var eventID EventID
+		for {
+			eventID++
+			channel <- &Event{ID: eventID}
+			time.Sleep(250 * time.Millisecond)
+		}
+	}()
 	return channel, nil
 }
