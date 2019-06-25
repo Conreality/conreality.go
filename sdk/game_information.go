@@ -2,5 +2,5 @@
 
 package sdk
 
-// Game TODO...
-type Game struct{}
+// GameInformation TODO...
+type GameInformation struct{}
