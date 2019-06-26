@@ -2,10 +2,10 @@
 
 package sdk
 
-// PlayerID TODO...
-type PlayerID = AgentID
+// AgentID TODO...
+type AgentID = ObjectID
 
-// Player TODO...
-type Player struct {
-	Agent
+// Agent TODO...
+type Agent struct {
+	Object
 }
